@@ -50,20 +50,20 @@ jobs:
           echo "Current working directory: $CURRENT_DIR"
           
           # Create a directory for firmware dumping
-          mkdir firmware_dump
-          cd firmware_dump
+          mkdir input
 
           # Install samfirm tool
           sudo wget -O /usr/bin/samfirm https://github.com/ananjaser1211/SamFirm.NET/releases/latest/download/linux-x64 && sudo chmod +x /usr/bin/samfirm
 
-          # Use gdown to download your firmware
+          # Use samfirm to download your firmware
           samfirm -m ${{ matrix.model }} -r ${{ matrix.region }}
+          zip -r input/file.zip ${{ matrix.model }}_${{ matrix.region }}/*
           cd $CURRENT_DIR
 
           # Execute the dumper.sh script on all files in the firmware_dump directory
-          ./dumper.sh firmware_dump/${{ matrix.model }}_${{ matrix.region }}/*
+          ./dumper.sh input/*
 
       - name: Cleaning the area
         run: |
-          cd $CURRENT_DIR
+          cd ../$CURRENT_DIR
           rm -rf *
