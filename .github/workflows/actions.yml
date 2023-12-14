@@ -47,10 +47,8 @@ jobs:
           pip install gdown
 
           # Use gdown to download your firmware
-          gdown https://link-to-your-firmware
+          gdown https://drive.google.com/uc?id=1BLP9hQ3oGv_BfTDpPcbbH4pa7iGEPD3s
           cd $CURRENT_DIR/dumper
-
-          # Additional commands for extracting or processing the firmware if needed
 
           # Execute the dumper.sh script on all files in the firmware_dump directory
           ./dumper.sh firmware_dump/*
