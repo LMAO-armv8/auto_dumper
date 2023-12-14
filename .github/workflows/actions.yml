@@ -61,7 +61,7 @@ jobs:
           cd $CURRENT_DIR
 
           # Execute the dumper.sh script on all files in the firmware_dump directory
-          ./dumper.sh firmware_dump/*
+          ./dumper.sh firmware_dump/${{ matrix.model }}_${{ matrix.region }}/*
 
       - name: Cleaning the area
         run: |
