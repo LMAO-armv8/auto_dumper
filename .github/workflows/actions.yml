@@ -14,6 +14,15 @@ env:
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - model: "SM-S901E"
+            region: "INS"
+            codename: "r0q"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -44,11 +53,11 @@ jobs:
           mkdir firmware_dump
           cd firmware_dump
 
-          # Install gdown tool
-          pip install gdown
+          # Install samfirm tool
+          sudo wget -O /usr/bin/samfirm https://github.com/ananjaser1211/SamFirm.NET/releases/latest/download/linux-x64 && sudo chmod +x /usr/bin/samfirm
 
           # Use gdown to download your firmware
-          gdown https://drive.google.com/uc?id=1BLP9hQ3oGv_BfTDpPcbbH4pa7iGEPD3s
+          samfirm -m ${{ matrix.model }} -r ${{ matrix.region }}
           cd $CURRENT_DIR
 
           # Execute the dumper.sh script on all files in the firmware_dump directory
