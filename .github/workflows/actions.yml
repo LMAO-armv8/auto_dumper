@@ -1,0 +1,61 @@
+name: Dump and Push
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  GITHUB_USERNAME: lmao-armv8
+  GITHUB_EMAIL: chaitanya4g9@sasi.ac.in
+  DUMP_TOKEN: ${{ secrets.DUMP_TOKEN }}
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configuring git
+        run: |
+          git config --global user.name $GITHUB_USERNAME
+          git config --global user.email $GITHUB_EMAIL
+
+      - name: Clone dumping tool
+        run: git clone https://github.com/DroidDumps/phoenix_firmware_dumper dumper
+
+      - name: Copy the secrets and create .github_orgname
+        run: |
+          cd dumper
+          echo "${{ secrets.DUMP_TOKEN }}" > .github_token
+          echo "LMAO-dumps" > .github_orgname
+
+      - name: Dumping the firmware
+        run: |
+          # Store the current working directory in a variable
+          CURRENT_DIR=$(pwd)
+          # Print the current working directory
+          echo "Current working directory: $CURRENT_DIR"
+          
+          # Create a directory for firmware dumping
+          mkdir firmware_dump
+          cd firmware_dump
+
+          # Install gdown tool
+          pip install gdown
+
+          # Use gdown to download your firmware
+          gdown https://link-to-your-firmware
+          cd $CURRENT_DIR/dumper
+
+          # Additional commands for extracting or processing the firmware if needed
+
+          # Execute the dumper.sh script on all files in the firmware_dump directory
+          ./dumper.sh firmware_dump/*
+
+      - name: Cleaning the area
+        run: |
+          cd $CURRENT_DIR
+          rm -rf *
