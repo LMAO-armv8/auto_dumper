@@ -58,6 +58,7 @@ jobs:
           # Use samfirm to download your firmware
           samfirm -m ${{ matrix.model }} -r ${{ matrix.region }}
           zip -r input/file.zip ${{ matrix.model }}_${{ matrix.region }}/*
+          rm -rf ${{ matrix.model }}_${{ matrix.region }}
           cd $CURRENT_DIR
 
           # Execute the dumper.sh script on all files in the firmware_dump directory
