@@ -36,7 +36,7 @@ jobs:
           git config --global user.email $GITHUB_EMAIL
 
       - name: Clone dumping tool
-        run: git clone https://github.com/DroidDumps/phoenix_firmware_dumper dumper
+        run: git clone https://github.com/LMAO-armv8/DumprX/ dumper
 
       - name: Copy the secrets and create .github_orgname
         run: |
@@ -51,18 +51,13 @@ jobs:
           CURRENT_DIR=$(pwd)
           # Print the current working directory
           echo "Current working directory: $CURRENT_DIR"
-          
-          # Create a directory for firmware dumping
-          mkdir input
 
           # Install samfirm tool
           sudo wget -O /usr/bin/samfirm https://github.com/ananjaser1211/SamFirm.NET/releases/latest/download/linux-x64 && sudo chmod +x /usr/bin/samfirm
 
           # Use samfirm to download your firmware
           samfirm -m ${{ matrix.model }} -r ${{ matrix.region }}
-          zip -r input/file.zip ${{ matrix.model }}_${{ matrix.region }}/*
-          rm -rf ${{ matrix.model }}_${{ matrix.region }}
-          cd $CURRENT_DIR
+          mv ${{ matrix.model }}_${{ matrix.region }} input
 
           # Execute the dumper.sh script on all files in the firmware_dump directory
           ./dumper.sh input/*
