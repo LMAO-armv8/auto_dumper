@@ -60,9 +60,9 @@ jobs:
           mv ${{ matrix.model }}_${{ matrix.region }} input
 
           # Execute the dumper.sh script on all files in the firmware_dump directory
-          ./dumper.sh input/*
+          ./dumper.sh input
 
       - name: Cleaning the area
         run: |
-          cd ../$CURRENT_DIR
+          cd $CURRENT_DIR/..
           rm -rf *
