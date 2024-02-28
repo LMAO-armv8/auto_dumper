@@ -20,9 +20,9 @@ jobs:
       max-parallel: 2
       matrix:
         include:
-          - model: "SM-S901E"
+          - model: "SM-M315F"
             region: "INS"
-            codename: "r0q"
+            codename: "m31"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
